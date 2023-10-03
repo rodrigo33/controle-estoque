@@ -30,5 +30,8 @@ jobs:
       # Publicar a aplicação
       dotnet publish -c Release -o $(Build.ArtifactStagingDirectory)
     displayName: 'Publish'
-    artifacts:
-    - path: '**/bin/**/*.zip'
+  - task: PublishBuildArtifacts@1
+    displayName: 'Publish Artifact'
+    inputs:
+      PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+      ArtifactName: 'drop'
