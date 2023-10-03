@@ -1,0 +1,37 @@
+﻿trigger:
+- main
+
+pool:
+  vmImage: 'windows-latest'
+
+jobs:
+- job: Build
+  displayName: 'Build Job'
+  steps:
+  - script: |
+      # Restaurar pacotes NuGet
+      dotnet restore
+      # Compilar a aplicação
+      dotnet build
+    displayName: 'Build'
+
+- job: Test
+  displayName: 'Test Job'
+  steps:
+  - script: |
+      # Executar testes
+      dotnet test
+    displayName: 'Test'
+
+- job: Publish
+  displayName: 'Publish Job'
+  steps:
+  - script: |
+      # Publicar a aplicação
+      dotnet publish -c Release -o $(Build.ArtifactStagingDirectory)
+    displayName: 'Publish'
+  - task: PublishBuildArtifacts@1
+    displayName: 'Publish Artifact'
+    inputs:
+      PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+      ArtifactName: 'drop'
