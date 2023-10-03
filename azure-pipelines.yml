@@ -1,0 +1,17 @@
+trigger:
+- main  # Ou a branch que você deseja acionar
+
+pool:
+  vmImage: 'windows-latest'  # Ou outra imagem adequada para sua aplicação
+
+steps:
+- task: UseDotNet@2
+  inputs:
+    packageType: 'sdk'
+    version: '3.x'  # Versão do .NET SDK apropriada
+
+- script: dotnet build --configuration Release
+  displayName: 'Build'
+
+- script: dotnet test --configuration Release
+  displayName: 'Test'
